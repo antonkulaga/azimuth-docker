@@ -36,7 +36,7 @@ def predict(seq, aa_cut=None, percent_peptide=None, model=None, model_file=None,
         else:
             percent_peptide = None
     predictions = azimuth.model_comparison.predict(seq, aa_cut, percent_peptide, model, model_file, pam_audit, length_audit, learn_options_override)
-    result = [ (seq[i], prediction) for i, prediction in enumerate(predictions)]
+    result = {seq[i] : prediction for i, prediction in enumerate(predictions)}
     return result
 
 
