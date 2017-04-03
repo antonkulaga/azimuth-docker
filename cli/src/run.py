@@ -14,7 +14,7 @@ import azimuth.model_comparison
 @click.argument('sequences', nargs=-1, required=True)
 @click.option('--cut', '-c', type=int, multiple=True)
 @click.option('--percent_peptide', '-p', type=float, multiple=True)
-@click.option('--model', '-m', default = "models/V3_model_full.pickle")
+@click.option('--model', '-m', default = "../models/V3_model_full.pickle")
 def cli(sequences, cut=None, percent_peptide=None, model= "models/V3_model_full.pickle"):
     predictions = predict(sequences, cut, percent_peptide, model_file=model)
     for result in predictions:

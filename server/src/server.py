@@ -46,15 +46,23 @@ from flask.json import jsonify
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def info():
-    sequence = request.args.get('sequence')
-    if(sequence):
-        seqs = np.array([sequence])
-        result = predict(seqs, model_file="models/V3_model_full.pickle")
+    path = "models/V3_model_full.pickle"
+    if request.method == 'POST':
+        json = request.get_json(True, False)
+        sequences = json['sequences']
+        seqs = np.array(sequences)
+        result = predict(seqs, model_file=path)
         return jsonify({'scores': result})
     else:
-        return 'Please, provide a sequence! host:port?sequence=<your sequence>'
+        sequence = request.args.get('sequence')
+        if(sequence):
+            seqs = np.array([sequence])
+            result = predict(seqs, model_file=path)
+            return jsonify({'scores': result})
+        else:
+            return 'Please, provide a sequence! host:port?sequence=<your sequence>'
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port = 5000)
